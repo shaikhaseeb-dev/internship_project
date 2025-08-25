@@ -20,6 +20,12 @@ def public(request):
     return Response({"message": "This is a public endpoint"})
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
+def test_view(request):
+    """Simple test endpoint"""
+    return Response({"message": "Test endpoint works!"})
+
+@api_view(['GET'])
 def private(request):
     """Private endpoint requiring authentication"""
     return Response({"message": f"Hello {request.user.username}! This is a private endpoint"})
