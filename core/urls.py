@@ -16,11 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
+from django.shortcuts import redirect 
 from rest_framework.authtoken.views import obtain_auth_token
 from api.views import public, private, register
 
+def health(request):
+    return JsonResponse({"status": "ok"})
+
+def root(request):
+    return redirect('health')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),
+    path('health/', health, name='health'),
+    path('', root, name='root'),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
     path('api/public/', public, name='public'),
     path('api/private/', private, name='private'),
